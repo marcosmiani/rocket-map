@@ -18,15 +18,17 @@ export interface CustomMarker {
   name: string;
   coordinates: [number, number]
   status: StatusMap
-  date: string,
+  first: boolean,
+  date: string | null,
   agencies: [{ id: number, name: string }]
 }
 
 export interface Launch {
+  id: number;
   name: string;
   coordinates: [number, number]
   status: number, // (1 Green, 2 Red, 3 Success, 4 Failed)
-  netstamp: number,
+  net: string,
   location: {
     pads: [
       {
@@ -81,13 +83,17 @@ const slice =  createSlice({
     [searchLaunches.fulfilled]: (state, action) => {
       state.loading = false
       state.error = ''
+
+      const firstLaunch = action.payload.launches[0] ? action.payload.launches[0].id : null
       // Add payload to the state array
       state.items = action.payload.launches.map((launch: Launch) => {
+        const id = launch.id
         return {
-          markerOffset: -15,
+          id,
           name: launch.name,
+          first: firstLaunch === id,
           status: StatusMap[launch.status], // (1 Green, 2 Red, 3 Success, 4 Failed)
-          date: format(new Date(launch.netstamp * 1000), DATE_FORMAT),
+          date: launch.net,
           agencies: (launch.location.pads[0].agencies || []).map(({ id, name }) => ({ id, name })),
           coordinates: [launch.location.pads[0].latitude, launch.location.pads[0].longitude]
         }

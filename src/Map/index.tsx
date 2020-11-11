@@ -51,8 +51,8 @@ const MainMap = styled(ComposableMap)`
   max-height: calc(100vh - 200px);
 `
 
-const MarkerPoint = ({marker, onSelect}: MarkerPointProps) => {
-  const { name, coordinates } = marker
+const MarkerPoint = ({ marker, onSelect}: MarkerPointProps) => {
+  const { name, coordinates, first } = marker
 
   return (
     <StyledMarker
@@ -60,7 +60,7 @@ const MarkerPoint = ({marker, onSelect}: MarkerPointProps) => {
       coordinates={coordinates}
       onClick={() => onSelect(marker)}
     >
-      <circle r={4} fill="#F00" stroke="#fff" strokeWidth={2} />
+      <circle r={4} fill={first ? '#F00' : '#0F0'} stroke="#fff" strokeWidth={2} />
     </StyledMarker>
   )
 }
@@ -89,9 +89,9 @@ const MapChart = ({ onSelect }: { onSelect: Function }) => {
           </Geographies>
           {!loading && !error && points.map((marker) => (
             <MarkerPoint
-            key={marker.name}
-            marker={marker}
-            onSelect={onSelect}
+              key={marker.name}
+              marker={marker}
+              onSelect={onSelect}
             />
           ))}
         </ZoomableGroup>

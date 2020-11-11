@@ -39,7 +39,7 @@ function Details({ markerDetails }: {markerDetails: CustomMarker}) {
   return (
     <MarkerDetail>
       <Name>{markerDetails.name}</Name>
-      <Date>Launch Date: {markerDetails.date}</Date>
+      {!!markerDetails.date && <Date>Launch Date: {markerDetails.date}</Date>}
       <Status>Status: {markerDetails.status}</Status>
       <Agencies>
         Agencies:
