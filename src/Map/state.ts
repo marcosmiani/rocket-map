@@ -2,6 +2,7 @@ import { createSlice, combineReducers, createAsyncThunk } from '@reduxjs/toolkit
 import { fetch } from 'whatwg-fetch'
 import URI from 'urijs'
 import { checkStatus, parseJSON } from '../utils'
+import { RootState, ThunkAPI } from '../store'
 
 export interface CustomMarker {
   name: string;
@@ -24,13 +25,12 @@ export interface Launch {
 // SEARCH
 export const searchLaunches: any = createAsyncThunk(
   `map/locations_by_date`,
-  async (params, thunkAPI) => {
-    // For getting the params later
-    // const { from, to } = params;
-    // const { tokens: { /* accuWeatherToken, */ tequilaKiwiToken } } = thunkAPI.getState()
+  async (params, thunkAPI: ThunkAPI) => {
+    const state: RootState = thunkAPI.getState()
+    const { search: { from, to } } = state
 
     return fetch(
-      URI('https://launchlibrary.net/1.3/launch/2015-08-20/2015-09-20'),
+      URI(`https://launchlibrary.net/1.3/launch/${from}/${to}`),
       {
         method: 'GET'
       }

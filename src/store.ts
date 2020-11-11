@@ -3,6 +3,10 @@ import search from './Search/state'
 import map, { CustomMarker } from './Map/state'
 
 export interface RootState {
+  search: {
+    from: string,
+    to: string
+  }
   map: {
     locations: {
       items: Array<CustomMarker>
@@ -10,6 +14,10 @@ export interface RootState {
       error: string
     }
   }
+}
+
+export interface ThunkAPI {
+  getState: Function
 }
 
 export function createStore () {
