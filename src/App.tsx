@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { createStore } from './store';
 import { CustomMarker } from './Map/state'
 import SearchForm from './Search';
+import MarkerDetail from './Details';
 
 const store = createStore()
 
@@ -16,13 +17,6 @@ const Wrapper = styled.div`
   overflow: hidden;
 `
 
-const MarkerDetail = styled.div`
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background-color: black;
-  color: white;
-`
 
 function App() {
   const [markerDetails, setShowMarkerDetails] = useState<CustomMarker | null>(null)
@@ -32,9 +26,7 @@ function App() {
       <Wrapper>
         <SearchForm />
         <MapChart onSelect={setShowMarkerDetails} />
-        {markerDetails && < MarkerDetail>
-          {markerDetails.name}
-        </MarkerDetail>}
+        {markerDetails && < MarkerDetail markerDetails={markerDetails} />}
       </Wrapper>
     </Provider>
   );

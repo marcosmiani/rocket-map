@@ -2,19 +2,40 @@ import { createSlice, combineReducers, createAsyncThunk } from '@reduxjs/toolkit
 import { fetch } from 'whatwg-fetch'
 import URI from 'urijs'
 import { checkStatus, parseJSON } from '../utils'
-import { RootState, ThunkAPI } from '../store'
+import { RootState, ThunkAPI, DATE_FORMAT } from '../store'
+import { getDefaultFrom, getDefaultTo } from '../Search/state'
+import { format } from 'date-fns'
+
+enum StatusMap {
+  // (1 Green, 2 Red, 3 Success, 4 Failed)
+  GREEN = 1,
+  RED = 2,
+  SUCCESS = 3,
+  FAILED = 4
+}
 
 export interface CustomMarker {
   name: string;
   coordinates: [number, number]
+  status: StatusMap
+  date: string,
+  agencies: [{ id: number, name: string }]
 }
 
 export interface Launch {
   name: string;
   coordinates: [number, number]
+  status: number, // (1 Green, 2 Red, 3 Success, 4 Failed)
+  netstamp: number,
   location: {
     pads: [
       {
+        agencies: [
+          {
+            id: number,
+            name: string
+          }
+        ],
         latitude: number,
         longitude: number,
       }
@@ -30,7 +51,7 @@ export const searchLaunches: any = createAsyncThunk(
     const { search: { from, to } } = state
 
     return fetch(
-      URI(`https://launchlibrary.net/1.3/launch/${from}/${to}`),
+      URI(`https://launchlibrary.net/1.3/launch/${from || getDefaultFrom()}/${to || getDefaultTo()}`),
       {
         method: 'GET'
       }
@@ -65,6 +86,9 @@ const slice =  createSlice({
         return {
           markerOffset: -15,
           name: launch.name,
+          status: StatusMap[launch.status], // (1 Green, 2 Red, 3 Success, 4 Failed)
+          date: format(new Date(launch.netstamp), DATE_FORMAT),
+          agencies: (launch.location.pads[0].agencies || []).map(({ id, name }) => ({ id, name })),
           coordinates: [launch.location.pads[0].latitude, launch.location.pads[0].longitude]
         }
       })

@@ -1,29 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
-import { searchLaunches } from '../Map/state';
 import { useDispatch, useSelector } from 'react-redux'
+import { searchLaunches } from '../Map/state';
 import { RootState } from '../store'
-
-import { fromActions, toActions } from './state'
+import { fromActions, toActions, getDefaultFrom, getDefaultTo } from './state'
 
 const Header = styled.header`
   position: fixed;
   top: 10px;
   left: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  border-radius: 2px;
+`
+
+const Dates = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+`
+
+const DateInput = styled.input`
+  margin: 0 4px;
+  height: 25px;
+  font-size: 16px;
+  width: 180px;
 `
 
 const Button = styled.button`
-  height: 25px;
+  height: 30px;
   background-color: darkgreen;
   border: 0;
-  border-radius: 4px;
+  border-radius: 2px;
   color: white;
+  font-size: 16px;
+  padding: 0 16px;
+
+  &:disabled {
+    background-color: darkgray;
+  }
 `
 
 function SearchForm() {
@@ -34,16 +55,25 @@ function SearchForm() {
 
   return (
     <Header>
-      <input type="date" name="date-from"
-        value={from}
-        max={to}
-        onChange={(e) => dispatch(fromActions.set(e.target.value))}
-      />
-      <input type="date" name="date-to"
-        value={to}
-        min={from}
-        onChange={(e) => dispatch(toActions.set(e.target.value))}
-      />
+      <Dates>
+        <DateInput
+          data-testid='date-from'
+          name="date-from"
+          type="date"
+          value={from || getDefaultFrom()}
+          max={to}
+          onChange={(e) => dispatch(fromActions.set(e.target.value))}
+        />
+        -
+        <DateInput
+          type="date"
+          name="date-to"
+          data-testid="date-to"
+          value={to || getDefaultTo()}
+          min={from}
+          onChange={(e) => dispatch(toActions.set(e.target.value))}
+        />
+      </Dates>
       <Button data-testid='search-button' disabled={loading} onClick={() => dispatch(searchLaunches()) }>
         Search
       </Button>

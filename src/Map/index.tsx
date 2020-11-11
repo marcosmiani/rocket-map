@@ -41,7 +41,7 @@ const MapChart = ({ onSelect }: { onSelect: Function }) => {
   const loading: boolean = useSelector((state: RootState) => state.map.locations.loading)
 
   return (
-    <ComposableMap>
+    <ComposableMap data-testid='map'>
       <Geographies geography={geoUrl}>
         {({ geographies }) =>
           geographies

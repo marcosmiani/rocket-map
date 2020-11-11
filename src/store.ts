@@ -2,6 +2,8 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import search from './Search/state'
 import map, { CustomMarker } from './Map/state'
 
+export const DATE_FORMAT = 'yyyy-MM-dd';
+
 export interface RootState {
   search: {
     from: string,
