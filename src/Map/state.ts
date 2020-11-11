@@ -87,7 +87,7 @@ const slice =  createSlice({
           markerOffset: -15,
           name: launch.name,
           status: StatusMap[launch.status], // (1 Green, 2 Red, 3 Success, 4 Failed)
-          date: format(new Date(launch.netstamp), DATE_FORMAT),
+          date: format(new Date(launch.netstamp * 1000), DATE_FORMAT),
           agencies: (launch.location.pads[0].agencies || []).map(({ id, name }) => ({ id, name })),
           coordinates: [launch.location.pads[0].latitude, launch.location.pads[0].longitude]
         }
