@@ -1,6 +1,29 @@
-# Getting Started with Create React App
+# Getting Started with Flying cloud
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Go to [the rocket-map page](http://marcosmiani.github.io/rocket-map)
+
+## Basic choices and why's
+
+Since the requirement was 3 hours (last half for documentation right?) I tried to achieve a MVP with the basic functionalities, taking in consideration the order described on the requirements:
+- Search by dates
+- Control loading and error
+- Show map and points
+
+The fundation: create react app with typescript option
+The map library: simple, documentation with examples, clear and easy to use
+The state: Redux with the tools and easy thunk actions that reduce into loading, error and data, plus normal state for the form params
+No component library: True, it could help implementing better form validation, but since is a MVP, seemed like an overkill
+Basic tests: Testing the whole async state could take half an hour, and functionality in this case was more important for me, and since the number of features is small, normal manual functional tests seemed suficient
+
+# Improvements I would like to add
+
+- Proper designs: what application doesnt benefit of that??
+- Icons, metadata, better accesibility
+- Tests on the state, specially the reducers, they can be splitted and tested individually, despite the types help
+- Better map navigation: zoom controls, center, tooltips
+- Add links to the details: agency wikis
+- Better details (mission, cost, etc)
+- Add more filters
 
 ## Available Scripts
 
@@ -27,20 +50,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
