@@ -20,7 +20,7 @@ interface MarkerPointProps {
 }
 
 
-const LoadingOverlay = styled.div`
+const StatusOverlay = styled.div`
   cursor: wait;
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
@@ -35,6 +35,10 @@ const LoadingOverlay = styled.div`
 
 const LoadingMessage = styled.div`
   color: white;
+  font-size: 16px;
+`
+const ErrorMessage = styled.div`
+  color: red;
   font-size: 16px;
 `
 
@@ -64,6 +68,7 @@ const MarkerPoint = ({marker, onSelect}: MarkerPointProps) => {
 const MapChart = ({ onSelect }: { onSelect: Function }) => {
   const points: Array<CustomMarker> = useSelector((state: RootState) => state.map.locations.items)
   const loading: boolean = useSelector((state: RootState) => state.map.locations.loading)
+  const error: string = useSelector((state: RootState) => state.map.locations.error)
 
   return (
     <>
@@ -82,7 +87,7 @@ const MapChart = ({ onSelect }: { onSelect: Function }) => {
                 ))
             }
           </Geographies>
-          {!loading && points.map((marker) => (
+          {!loading && !error && points.map((marker) => (
             <MarkerPoint
             key={marker.name}
             marker={marker}
@@ -91,11 +96,20 @@ const MapChart = ({ onSelect }: { onSelect: Function }) => {
           ))}
         </ZoomableGroup>
       </MainMap>
-      {loading && <LoadingOverlay>
-        <LoadingMessage>
-          Loading data...
-        </LoadingMessage>
-      </LoadingOverlay>}
+      {(loading || error) && (
+        <StatusOverlay>
+          {loading && (
+            <LoadingMessage>
+              Loading data...
+            </LoadingMessage>
+          )}
+          {error && (
+            <ErrorMessage>
+              {error}
+            </ErrorMessage>
+          )}
+        </StatusOverlay>
+      )}
     </>
   );
 };
