@@ -16,6 +16,8 @@ const Agency = styled.div`
   display: block;
   padding-left: 16px;
 `
+const Date = styled.div``
+const Status = styled.div``
 
 const MarkerDetail = styled.div`
   position: fixed;
@@ -37,6 +39,8 @@ function Details({ markerDetails }: {markerDetails: CustomMarker}) {
   return (
     <MarkerDetail>
       <Name>{markerDetails.name}</Name>
+      <Date>Launch Date: {markerDetails.date}</Date>
+      <Status>Status: {markerDetails.status}</Status>
       <Agencies>
         Agencies:
         {markerDetails.agencies.map((agency: {id: number, name: string}) => (
