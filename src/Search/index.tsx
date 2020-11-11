@@ -10,6 +10,7 @@ const Header = styled.header`
   top: 10px;
   left: 10px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -41,6 +42,7 @@ const Button = styled.button`
   color: white;
   font-size: 16px;
   padding: 0 16px;
+  margin: 16px 0;
 
   &:disabled {
     background-color: darkgray;
